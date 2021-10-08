@@ -7,6 +7,7 @@ export class MapContainer extends Component {
       cars: [],
     };
   }
+  // Pull data from API onMount
   componentDidMount() {
     fetch("https://615f71edf7254d001706813e.mockapi.io/api/cars")
       .then((res) => res.json())
@@ -14,13 +15,9 @@ export class MapContainer extends Component {
         this.setState({
           cars: result,
         });
-        const check = this.state.cars.map((car, index) => {
-          return car.latitude;
-        });
-        console.log(check);
       });
   }
-
+  // Method that creates the markers across town
   displayCars = () => {
     return this.state.cars.map((car, index) => {
       return (
