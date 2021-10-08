@@ -14,13 +14,30 @@ export class MapContainer extends Component {
         this.setState({
           cars: result,
         });
-        console.log(this.state.cars);
+        const check = this.state.cars.map((car, index) => {
+          return car.latitude;
+        });
+        console.log(check);
       });
   }
+
+  displayCars = () => {
+    return this.state.cars.map((car, index) => {
+      return (
+        <Marker
+          position={{
+            lat: car.latitude,
+            lng: car.longitude,
+          }}
+          onClick={() => console.log("You clicked me!")}
+        />
+      );
+    });
+  };
   render() {
     return (
       <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
-        <Marker position={{ lat: 33.9519, lng: -83.3576 }} />
+        {this.displayCars()}
       </Map>
     );
   }
