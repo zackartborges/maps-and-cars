@@ -12,7 +12,7 @@ const mapStyles = {
   height: "100%",
 };
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyBtTDkWWy-pFZV53bizoVUgVON53dwLE2w",
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(MapContainer);
 
 // export default MapContainer
