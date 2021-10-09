@@ -45,11 +45,13 @@ const mapStyles = {
   width: "100%",
   height: "100%",
 };
-const idle = "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
-const enRoute = "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
-const brokenDown = "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
+// const idle = "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
+const idle = "http://maps.google.com/mapfiles/kml/pal4/icon62.png";
+const enRoute = "http://maps.google.com/mapfiles/kml/pal4/icon31.png";
+const brokenDown = "http://maps.google.com/mapfiles/kml/pal4/icon15.png";
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(MapContainer);
 
 // export default MapContainer
+// http://maps.google.com/mapfiles/kml/pal4/icon15.png
