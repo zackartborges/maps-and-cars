@@ -27,7 +27,6 @@ export class MapContainer extends Component {
             lat: car.latitude,
             lng: car.longitude,
           }}
-          color="blue"
           icon={this.state.carStatus[car.status]}
           onClick={() => console.log("You clicked me!")}
         />
@@ -46,10 +45,9 @@ const mapStyles = {
   width: "100%",
   height: "100%",
 };
-const idle = "https://google.com/mapfiles/ms/icons/green.png";
-const enRoute = "https://google.com/mapfiles/ms/icons/yellow.png";
-const brokenDown = "https://google.com/mapfiles/ms/icons/red.png";
-
+const idle = "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
+const enRoute = "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+const brokenDown = "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(MapContainer);
