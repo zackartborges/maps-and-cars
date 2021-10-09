@@ -1,4 +1,6 @@
 import MapContainer from "./components/MapContainer";
+import InfoModal from "./components/InfoModal";
+import React, { useState } from "react";
 
 import "./App.css";
 function App() {
@@ -6,6 +8,7 @@ function App() {
     <div className="App">
       <header className="app-header">
         <MapContainer />
+        <InfoModal />
       </header>
     </div>
   );
