@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import CarModal from "./CarModal";
 export class MapContainer extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
       carStatus: { 0: idle, 1: enRoute, 2: brokenDown },
+      show: false,
     };
   }
   // Pull data from API onMount
@@ -27,8 +29,9 @@ export class MapContainer extends Component {
             lat: car.latitude,
             lng: car.longitude,
           }}
+          key={car.id}
           icon={this.state.carStatus[car.status]}
-          onClick={() => console.log("You clicked me!")}
+          onClick={() => console.log("You clicked me!", car.id)}
         />
       );
     });
@@ -37,10 +40,12 @@ export class MapContainer extends Component {
     return (
       <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
         {this.displayCars()}
+        <CarModal />
       </Map>
     );
   }
 }
+
 const mapStyles = {
   width: "100%",
   height: "100%",
