@@ -12,7 +12,6 @@ export class MapContainer extends Component {
   }
   // Pull data from API onMount
 
-  // Method that creates the markers across town
   componentDidMount() {
     fetch("https://615f71edf7254d001706813e.mockapi.io/api/cars")
       .then((res) => res.json())
@@ -53,7 +52,7 @@ export class MapContainer extends Component {
           key={car.id}
           icon={this.state.carStatus[car.status]}
           // calls car.status to allow for direct manipulation of status?
-          onClick={() => this.changeStatus(car.status)}
+          onClick={() => this.changeStatus(car.id)}
         />
       );
     });
