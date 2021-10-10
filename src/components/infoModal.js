@@ -8,20 +8,20 @@ function InfoModal(props) {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="nextButton" onClick={props.handleShow}>
+      <Button className="nextButton" onClick={handleShow}>
         Open Modal
       </Button>
 
-      <Modal show={show} onHide={props.handleClose}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Title!</Modal.Title>
         </Modal.Header>
         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={props.handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Save Changes
           </Button>
         </Modal.Footer>
