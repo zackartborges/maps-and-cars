@@ -1,6 +1,6 @@
 import MapContainer from "./components/MapContainer";
 // import InfoModal from "./components/InfoModal";
-import React, { useState } from "react";
+import React from "react";
 
 import "./App.css";
 function App() {
