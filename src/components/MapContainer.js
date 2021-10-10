@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import InfoModal from "./InfoModal";
+
+const idle = "http://maps.google.com/mapfiles/kml/pal4/icon62.png";
+const enRoute = "http://maps.google.com/mapfiles/kml/pal4/icon31.png";
+const brokenDown = "http://maps.google.com/mapfiles/kml/pal4/icon15.png";
+const CAR_STATUS_MAP = { 0: idle, 1: enRoute, 2: brokenDown };
 export class MapContainer extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
-      carStatus: { 0: idle, 1: enRoute, 2: brokenDown },
-      show: false,
+      // carStatus: { 0: idle, 1: enRoute, 2: brokenDown },
+      showModal: false,
     };
     this.changeStatus = this.changeStatus.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
   // Pull data from API onMount
 
@@ -50,30 +57,37 @@ export class MapContainer extends Component {
             lng: car.longitude,
           }}
           key={car.id}
-          icon={this.state.carStatus[car.status]}
-          // calls car.status to allow for direct manipulation of status?
-          onClick={() => this.changeStatus(car.id)}
+          icon={CAR_STATUS_MAP[car.status]}
+          onClick={() => this.toggleModal(car)}
         />
       );
     });
   };
+
+  toggleModal(id) {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  }
+
   render() {
     return (
-      <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
-        {this.displayCars()}
-      </Map>
+      <div>
+        <InfoModal visible={this.state.showModal} toggleModal={this.toggleModal} />
+        <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
+          {this.displayCars()}
+        </Map>
+      </div>
     );
   }
 }
 
 const mapStyles = {
-  width: "100%",
-  height: "100%",
+  width: "75%",
+  height: "75%",
 };
 // const idle = "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
-const idle = "http://maps.google.com/mapfiles/kml/pal4/icon62.png";
-const enRoute = "http://maps.google.com/mapfiles/kml/pal4/icon31.png";
-const brokenDown = "http://maps.google.com/mapfiles/kml/pal4/icon15.png";
+
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(MapContainer);

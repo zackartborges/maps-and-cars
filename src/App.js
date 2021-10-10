@@ -1,5 +1,5 @@
 import MapContainer from "./components/MapContainer";
-// import InfoModal from "./components/InfoModal";
+import InfoModal from "./components/InfoModal";
 import React from "react";
 
 import "./App.css";

@@ -1,32 +1,26 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 
 function InfoModal(props) {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => props.toggleModal();
   return (
-    <>
-      <Button className="nextButton" onClick={props.handleShow}>
-        Open Modal
-      </Button>
-
-      <Modal show={show} onHide={props.handleClose}>
+    <div>
+      <Modal show={props.visible} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Title!</Modal.Title>
         </Modal.Header>
         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={props.handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 export default InfoModal;
