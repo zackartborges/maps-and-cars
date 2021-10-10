@@ -1,18 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 
 function InfoModal(props) {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => props.toggleModal();
   return (
-    <>
-      <Button className="nextButton" onClick={handleShow}>
-        Open Modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
+    <div>
+      <Modal show={props.visible} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Title!</Modal.Title>
         </Modal.Header>
@@ -26,7 +20,7 @@ function InfoModal(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 export default InfoModal;
