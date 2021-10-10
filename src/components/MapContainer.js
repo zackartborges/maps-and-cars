@@ -2,25 +2,26 @@ import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import InfoModal from "./InfoModal";
 
-const idle = "http://maps.google.com/mapfiles/kml/pal4/icon62.png";
-const enRoute = "http://maps.google.com/mapfiles/kml/pal4/icon31.png";
-const brokenDown = "http://maps.google.com/mapfiles/kml/pal4/icon15.png";
-const CAR_STATUS_MAP = { 0: idle, 1: enRoute, 2: brokenDown };
+const ICON_PATH = "http://maps.google.com/mapfiles/kml/pal4";
+const IDLE = `${ICON_PATH}/icon62.png`;
+const EN_ROUTE = `${ICON_PATH}/icon31.png`;
+const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
+const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
+const API_URL = "https://615f71edf7254d001706813e.mockapi.io/api/cars";
+
 export class MapContainer extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
-      // carStatus: { 0: idle, 1: enRoute, 2: brokenDown },
       showModal: false,
     };
     this.changeStatus = this.changeStatus.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
-  // Pull data from API onMount
 
   componentDidMount() {
-    fetch("https://615f71edf7254d001706813e.mockapi.io/api/cars")
+    fetch(API_URL)
       .then((res) => res.json())
       .then((result) => {
         this.setState({
@@ -28,14 +29,13 @@ export class MapContainer extends Component {
         });
       });
   }
-  // believe I need to implement componentDidUpdate to reload page to show updated status?
+
   changeStatus(e) {
     this.setState((prevState) => {
       const updatedStatus = prevState.cars.map((car) => {
         if (car.id === e) {
           return {
             ...car,
-            // attempt to change status to zero due to lack of modal/buttons
             status: 0,
           };
         }
@@ -71,6 +71,11 @@ export class MapContainer extends Component {
   }
 
   render() {
+    const mapStyles = {
+      width: "75%",
+      height: "75%",
+    };
+
     return (
       <div>
         <InfoModal visible={this.state.showModal} toggleModal={this.toggleModal} />
@@ -82,15 +87,6 @@ export class MapContainer extends Component {
   }
 }
 
-const mapStyles = {
-  width: "75%",
-  height: "75%",
-};
-// const idle = "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
-
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(MapContainer);
-
-// export default MapContainer
-// http://maps.google.com/mapfiles/kml/pal4/icon15.png
