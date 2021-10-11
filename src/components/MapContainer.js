@@ -8,14 +8,13 @@ const EN_ROUTE = `${ICON_PATH}/icon31.png`;
 const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
 const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
 const API_URL = "https://615f71edf7254d001706813e.mockapi.io/api/cars";
-
+// const CAR_DATA = this.state.cars;
 export class MapContainer extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
       showModal: false,
-      // carStatus: { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN },
     };
     this.changeStatus = this.changeStatus.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -27,6 +26,7 @@ export class MapContainer extends Component {
       .then((result) => {
         this.setState({
           cars: result,
+          carData: "",
         });
       });
   }
@@ -78,6 +78,7 @@ export class MapContainer extends Component {
   toggleModal(id) {
     this.setState({
       showModal: !this.state.showModal,
+      carData: id,
     });
     console.log("id:", id);
   }
@@ -90,7 +91,12 @@ export class MapContainer extends Component {
 
     return (
       <div>
-        <InfoModal visible={this.state.showModal} toggleModal={this.toggleModal} changeStatus={this.changeStatus} />
+        <InfoModal
+          visible={this.state.showModal}
+          toggleModal={this.toggleModal}
+          changeStatus={this.changeStatus}
+          carData={this.state.carData}
+        />
         <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
           {this.displayCars()}
         </Map>

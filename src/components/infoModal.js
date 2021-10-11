@@ -8,9 +8,9 @@ function InfoModal(props) {
     <div>
       <Modal show={props.visible} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Title!</Modal.Title>
+          <Modal.Title>{props.visible && props.carData.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>Current Status: {props.visible && props.carData.status}</Modal.Body>
         <Modal.Footer>
           <Button variant="success" size="sm" value="0" onClick={props.changeStatus}>
             Idle
