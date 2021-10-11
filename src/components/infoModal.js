@@ -12,9 +12,17 @@ function InfoModal(props) {
         </Modal.Header>
         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+          <Button variant="success" size="sm" value="0" onClick={props.changeStatus}>
+            Idle
           </Button>
+          <Button variant="warning" size="sm" value="1" onClick={props.changeStatus}>
+            En Route
+          </Button>
+
+          <Button variant="danger" size="sm" value="2" onClick={props.changeStatus}>
+            Incapacitated
+          </Button>
+
           <Button variant="primary" onClick={handleClose}>
             Save Changes
           </Button>

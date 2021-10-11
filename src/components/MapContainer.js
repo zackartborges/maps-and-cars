@@ -15,6 +15,7 @@ export class MapContainer extends Component {
     this.state = {
       cars: [],
       showModal: false,
+      // carStatus: { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN },
     };
     this.changeStatus = this.changeStatus.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -31,12 +32,14 @@ export class MapContainer extends Component {
   }
 
   changeStatus(e) {
+    const { value } = e.target;
     this.setState((prevState) => {
       const updatedStatus = prevState.cars.map((car) => {
         if (car.id === e) {
+          console.log("car:", car);
           return {
             ...car,
-            status: 0,
+            status: value,
           };
         }
         return car;
@@ -45,8 +48,16 @@ export class MapContainer extends Component {
         cars: updatedStatus,
       };
     });
-    console.log("completed", e);
+    console.log("completed", value);
   }
+
+  // changeStatus(event) {
+  //   const { value } = event.target;
+  //   this.setState({
+  //     status: value,
+  //   });
+  //   console.log("new status", this.state.status);
+  // }
 
   displayCars = () => {
     return this.state.cars.map((car, index) => {
@@ -68,17 +79,18 @@ export class MapContainer extends Component {
     this.setState({
       showModal: !this.state.showModal,
     });
+    console.log("id:", id);
   }
 
   render() {
     const mapStyles = {
-      width: "75%",
-      height: "75%",
+      width: "100%",
+      height: "100%",
     };
 
     return (
       <div>
-        <InfoModal visible={this.state.showModal} toggleModal={this.toggleModal} />
+        <InfoModal visible={this.state.showModal} toggleModal={this.toggleModal} changeStatus={this.changeStatus} />
         <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
           {this.displayCars()}
         </Map>
