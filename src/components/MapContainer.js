@@ -28,20 +28,19 @@ export class MapContainer extends Component {
       .then((result) => {
         this.setState({
           cars: result,
-          carData: "",
         });
       });
   }
 
-  changeStatus(e) {
-    console.log("ehy", e);
+  changeStatus(status) {
+    console.log(this.state.activeCar);
+    console.log(status);
     this.setState((prevState) => {
       const updatedStatus = prevState.cars.map((car) => {
-        if (car.id === e) {
-          console.log("car:", car);
+        if (car.id === this.state.activeCar.id) {
           return {
             ...car,
-            status: 0,
+            status,
           };
         }
         return car;
@@ -50,7 +49,6 @@ export class MapContainer extends Component {
         cars: updatedStatus,
       };
     });
-    console.log("completed", e);
   }
 
   closeModal() {
