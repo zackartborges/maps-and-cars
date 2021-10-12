@@ -8,16 +8,18 @@ const EN_ROUTE = `${ICON_PATH}/icon31.png`;
 const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
 const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
 const API_URL = "https://615f71edf7254d001706813e.mockapi.io/api/cars";
-// const CAR_DATA = this.state.cars;
+
 export class MapContainer extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
       showModal: false,
+      activeCar: "",
     };
     this.changeStatus = this.changeStatus.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +34,7 @@ export class MapContainer extends Component {
   }
 
   changeStatus(e) {
-    // const { value } = e;
+    console.log("ehy", e);
     this.setState((prevState) => {
       const updatedStatus = prevState.cars.map((car) => {
         if (car.id === e) {
@@ -51,13 +53,23 @@ export class MapContainer extends Component {
     console.log("completed", e);
   }
 
-  // changeStatus(event) {
-  //   const { value } = event.target;
-  //   this.setState({
-  //     status: value,
-  //   });
-  //   console.log("new status", this.state.status);
-  // }
+  closeModal() {
+    this.setState({
+      showModal: false,
+    });
+  }
+
+  openModal() {
+    this.setState({
+      showModal: true,
+    });
+  }
+
+  updateActiveCar(car) {
+    this.setState({
+      activeCar: car,
+    });
+  }
 
   displayCars = () => {
     return this.state.cars.map((car, index) => {
@@ -69,19 +81,14 @@ export class MapContainer extends Component {
           }}
           key={car.id}
           icon={CAR_STATUS_MAP[car.status]}
-          onClick={() => this.toggleModal(car)}
+          onClick={() => {
+            this.openModal();
+            this.updateActiveCar(car);
+          }}
         />
       );
     });
   };
-
-  toggleModal(id) {
-    this.setState({
-      showModal: !this.state.showModal,
-      carData: id,
-    });
-    console.log("id:", id);
-  }
 
   render() {
     const mapStyles = {
@@ -93,9 +100,9 @@ export class MapContainer extends Component {
       <div>
         <InfoModal
           visible={this.state.showModal}
-          toggleModal={this.toggleModal}
+          closeModal={this.closeModal}
           changeStatus={this.changeStatus}
-          carData={this.state.carData}
+          carData={this.state.activeCar}
         />
         <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
           {this.displayCars()}
