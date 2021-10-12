@@ -6,9 +6,9 @@ This project demonstrates my ability to utilize React.js and the Google Maps API
 
 This project was built as a take-home coding challenge for a Software Developer role, as well as a demonstration of my ability to problem-solve and develop clean and readable code.
 
-## Screenshots
+<!-- ## Screenshots
 
-Include logo/demo screenshot etc.
+Include logo/demo screenshot etc. -->
 
 ## Tech/framework used
 
@@ -39,7 +39,7 @@ To clone and run this application, you'll need Git and React.js (which comes wit
 Google Maps API:
 https://developers.google.com/maps
 
-## Tests
+<!-- ## Tests
 
 Describe and show how to run the tests with code examples.
 
@@ -54,3 +54,5 @@ If people like your project they’ll want to learn how they can use it. To do s
 A short snippet describing the license (MIT, Apache etc)
 
 MIT © [Yourname]()
+
+Test Components -->
