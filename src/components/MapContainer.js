@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import InfoModal from "./InfoModal";
 
-// const ICON_PATH = "http://maps.google.com/mapfiles/kml/pal4";
-// const IDLE = `${ICON_PATH}/icon62.png`;
-// const EN_ROUTE = `${ICON_PATH}/icon31.png`;
-// const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
-// const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
+const ICON_PATH = "http://maps.google.com/mapfiles/kml/pal4";
+const IDLE = `${ICON_PATH}/icon62.png`;
+const EN_ROUTE = `${ICON_PATH}/icon31.png`;
+const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
+const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
 // const MOCK_API_URL = "https://615f71edf7254d001706813e.mockapi.io/api/cars";
 // const { io } = require("socket.io-client");
 // const socket = io("http://localhost:3001", { transports: ["websocket"] });
@@ -23,15 +23,24 @@ export class MapContainer extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
-  callAPI() {
-    fetch("http://localhost:3001")
-      .then((res) => res.text())
-      .then((res) => this.setState({ apiResponse: res }));
-  }
 
   componentDidMount() {
-    this.callAPI();
+    this.callBackendAPI()
+      .then((res) => this.setState({ data: res.express }))
+      .catch((err) => console.log(err));
   }
+
+  callBackendAPI = async () => {
+    const response = await fetch("/express_backend");
+    const body = await response.json();
+    this.setState({
+      cars: body["cars"],
+    });
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    console.log(this.state.cars);
+  };
 
   changeStatus(status) {
     console.log(this.state.activeCar);
@@ -70,24 +79,24 @@ export class MapContainer extends Component {
     });
   }
 
-  // displayCars = () => {
-  //   return this.state.cars.map((car, index) => {
-  //     return (
-  //       <Marker
-  //         position={{
-  //           lat: car.latitude,
-  //           lng: car.longitude,
-  //         }}
-  //         key={car.id}
-  //         icon={CAR_STATUS_MAP[car.status]}
-  //         onClick={() => {
-  //           this.openModal();
-  //           this.updateActiveCar(car);
-  //         }}
-  //       />
-  //     );
-  //   });
-  // };
+  displayCars = () => {
+    return this.state.cars.map((car, index) => {
+      return (
+        <Marker
+          position={{
+            lat: car.latitude,
+            lng: car.longitude,
+          }}
+          key={car.id}
+          icon={CAR_STATUS_MAP[car.status]}
+          onClick={() => {
+            this.openModal();
+            this.updateActiveCar(car);
+          }}
+        />
+      );
+    });
+  };
 
   render() {
     const mapStyles = {
@@ -103,12 +112,9 @@ export class MapContainer extends Component {
           changeStatus={this.changeStatus}
           carData={this.state.activeCar}
         />
-        <Map
-          google={this.props.google}
-          zoom={15}
-          style={mapStyles}
-          initialCenter={{ lat: 33.9519, lng: -83.3576 }}
-        ></Map>
+        <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: 33.9519, lng: -83.3576 }}>
+          {this.displayCars()}
+        </Map>
       </div>
     );
   }
