@@ -7,9 +7,7 @@ const IDLE = `${ICON_PATH}/icon62.png`;
 const EN_ROUTE = `${ICON_PATH}/icon31.png`;
 const BROKEN_DOWN = `${ICON_PATH}/icon15.png`;
 const CAR_STATUS_MAP = { 0: IDLE, 1: EN_ROUTE, 2: BROKEN_DOWN };
-// const MOCK_API_URL = "https://615f71edf7254d001706813e.mockapi.io/api/cars";
-// const { io } = require("socket.io-client");
-// const socket = io("http://localhost:3001", { transports: ["websocket"] });
+const { io } = require("socket.io-client");
 
 export class MapContainer extends Component {
   constructor() {
@@ -25,26 +23,25 @@ export class MapContainer extends Component {
   }
 
   componentDidMount() {
-    this.callBackendAPI()
-      .then((res) => this.setState({ data: res.express }))
-      .catch((err) => console.log(err));
+    var socket = io();
+    socket.on("getCars", (message) => {
+      console.log(message);
+    });
   }
 
-  callBackendAPI = async () => {
-    const response = await fetch("/express_backend");
-    const body = await response.json();
-    this.setState({
-      cars: body["cars"],
-    });
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-    console.log(this.state.cars);
-  };
+  // callBackendAPI = async () => {
+  //   const response = await fetch("/express_backend");
+  //   const body = await response.json();
+  //   this.setState({
+  //     cars: body["cars"],
+  //   });
+  //   if (response.status !== 200) {
+  //     throw Error(body.message);
+  //   }
+  //   console.log(this.state.cars);
+  // };
 
   changeStatus(status) {
-    console.log(this.state.activeCar);
-    console.log(status);
     this.setState((prevState) => {
       const updatedStatus = prevState.cars.map((car) => {
         if (car.id === this.state.activeCar.id) {
